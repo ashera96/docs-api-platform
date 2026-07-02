@@ -279,4 +279,4 @@ Use the API key and invoke URL from Step 7 for all requests below.
 
 The companion sample runs this setup end to end using Docker, with a mock OpenAI backend and a pre-configured prompt decorator policy that demonstrates both chat decoration (prepend a persona) and text decoration (append an instruction). No real API credentials required.
 
-[View the sample on GitHub](https://github.com/wso2/api-platform/tree/main/samples/ai-gw-prompt-decorator)
+[View the sample on GitHub](https://github.com/wso2/api-platform/tree/main/samples/prompt-decorator-policy)
