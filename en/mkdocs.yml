@@ -711,6 +711,9 @@ nav:
         - Browse the MCP Hub: next/ai-workspace/mcp-registry/browse-mcp-hub.md
         - Use the MCP Registry API: next/ai-workspace/mcp-registry/mcp-registry-api.md
     - GenAI Applications: next/ai-workspace/genai-applications.md
+    - Authentication:
+        - Overview: next/ai-workspace/authentication/overview.md
+        - Set up Asgardeo: next/ai-workspace/authentication/asgardeo-setup.md
     - Configure Inbound Auth: next/ai-workspace/configure-inbound-auth.md
     - Invoke via SDKs: next/ai-workspace/using-sdks.md
     - Policies:
