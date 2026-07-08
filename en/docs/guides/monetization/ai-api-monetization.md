@@ -28,7 +28,7 @@ By the end, you'll have a published Claude AI proxy with a Pay-as-you-go plan, a
 
 - A WSO2 API Platform account. Sign up for free at [console.bijira.dev](https://console.bijira.dev).
 - An Anthropic API key for the backend Claude API. Create one in the [Anthropic Console](https://console.anthropic.com/).
-- A Stripe account with your **Publishable Key** and **Secret Key**. These are available in the Stripe Dashboard under **Developers > API Keys**.
+- A [Stripe account](https://dashboard.stripe.com/) with your **Publishable Key** and **Secret Key**. These are available in the Stripe Dashboard under **Developers > API Keys**.
 - `curl` for testing.
 
 ---
