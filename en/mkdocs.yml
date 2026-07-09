@@ -705,6 +705,9 @@ nav:
         - Overview: next/ai-workspace/mcp-proxies/overview.md
         - Configure Proxy: next/ai-workspace/mcp-proxies/configure-proxy.md
         - Apply Policies: next/ai-workspace/mcp-proxies/apply-policies.md
+    - CI/CD:
+        - Overview: next/ai-workspace/ci-cd/overview.md
+        - Configure CI/CD Workflow: next/ai-workspace/ci-cd/configure-ci-cd-workflow.md
     - GenAI Applications: next/ai-workspace/genai-applications.md
     - Authentication:
         - Overview: next/ai-workspace/authentication/overview.md

@@ -68,6 +68,16 @@ Expose and govern Model Context Protocol servers through connected gateways.
 
 Learn more in [MCP Proxies](mcp-proxies/overview.md).
 
+### CI/CD
+
+Manage AI Workspace artifacts as project files and apply them through a Git-based release workflow.
+
+- Version LLM providers, App LLM proxies, and MCP proxies in source control
+- Validate project files before applying them to AI Workspace
+- Associate artifacts with intended gateway targets during create and update operations
+
+Learn more in [AI Workspace CI/CD](ci-cd/overview.md).
+
 ### Policies and Guardrails
 
 Configure AI-specific governance controls for providers and proxies.

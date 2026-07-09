@@ -8,7 +8,7 @@ tags:
   - llm
   - mcp
 author: WSO2 API Platform Documentation Team
-last_updated: 2026-06-11
+last_updated: 2026-07-08
 content_type: "concept"
 ---
 
@@ -23,6 +23,31 @@ A gateway for managing and securing AI traffic, including Large Language Model (
 
 ## Key Concepts
 
+### LLM Provider
+
+An LLM Provider represents a managed connection to an upstream AI service, such as OpenAI, Azure OpenAI, or any other LLM API. Platform administrators configure LLM Providers to define enterprise-wide connectivity, governance, and runtime controls, including:
+
+- The upstream LLM service endpoint
+- Authentication credentials (API keys, OAuth tokens, etc.)
+- Access control rules for exposed models and endpoints
+- Budget and cost control policies, such as token-based rate limiting
+- Enterprise-wide guardrails and runtime policies
+
+Once an LLM Provider is configured and deployed to the AI Gateway, it exposes a managed endpoint that applications can use to securely access the upstream LLM service.
+
+### App LLM Proxy
+
+An App LLM Proxy provides an application-specific entry point to an LLM Provider. While the LLM Provider enforces enterprise-wide governance, App LLM Proxies allow application teams to configure application-specific behavior, such as guardrails, prompt decorators, prompt templates, model parameters, and other runtime policies.
+
+Every App LLM Proxy is associated with an LLM Provider and inherits its administrator-defined access controls, budget limits, and enterprise-wide policies. Each proxy exposes its own URL path (for example, /assistant) and can apply additional application-specific policies without overriding enterprise-wide policies enforced by the platform administrator.
+
+This enables:
+
+- Multiple AI applications to securely share a single LLM Provider
+- Application-specific guardrails, prompt management, and runtime policies
+- Enterprise-wide governance with application-level customization
+- Clear separation of responsibilities between platform administrators and application developers
+
 ### LLM Provider Template
 
 An LLM Provider Template defines the characteristics and behaviors specific to an AI service provider, such as OpenAI, Azure OpenAI, or other LLM platforms. It describes how the gateway should interpret and extract usage and operational metadata, including prompt, completion, total, and remaining token information, as well as request and response model metadata.
@@ -35,27 +60,6 @@ Following templates are shipped out-of-the-box
 - AWS Bedrock
 - Azure AI Foundry
 - Gemini
-
-### LLM Provider
-
-An LLM Provider represents a connection to an AI backend service such as OpenAI, Azure OpenAI, or other LLM APIs. Platform administrators configure LLM Providers to define:
-
-- The LLM Provider Template
-- The upstream LLM service URL
-- Authentication credentials (API keys, tokens)
-- Access control rules for which endpoints are exposed
-- Budget control policies, such as token-based rate limiting
-- Organization-wide policies such as guardrails
-
-Once configured, the LLM Provider allows traffic to flow through the gateway to the AI backend.
-
-### LLM Proxy
-
-An LLM Proxy allows developers to create custom API endpoints that consume an LLM Provider, while inheriting administrator-enforced access control, budgeting and organization-wide policies defined at the provider level. Each proxy gets its own URL context (e.g., `/assistant`) and can have its own policies applied. This enables:
-
-- Multiple AI applications to share a single LLM Provider
-- Per-application policies such as prompt management and guardrails
-- Separation between platform administration and application development
 
 ### MCP Proxy
 
