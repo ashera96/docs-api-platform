@@ -21,15 +21,6 @@ gateway — who called what, the status code, latencies, request/response header
 bodies. It is designed to be picked up by any log-scraping pipeline (Fluent Bit, Loki, ELK, CloudWatch,
 and so on); see [Centralized Logging](logging.md) for a reference log stack that can collect it.
 
-Two properties distinguish it from [Moesif Analytics](../analytics/moesif-analytics.md):
-
-* **No external SaaS required.** The log line is written to stdout only — there's no analytics
-  publisher, application ID, or outbound network call involved.
-* **No policy dependency.** The line is produced from Envoy's always-on access-log path, not from a
-  policy in the mediation chain. This means a request an auth policy **denies** (short-circuits) still
-  produces a log line with the denial's status code — exactly the traffic an operator most wants
-  visibility into, and something policy-chain-based logging structurally cannot capture.
-
 !!! note
     Traffic Logging and Moesif Analytics are independent consumers of the same underlying data-capture
     pipeline. You can enable either, both, or neither.
@@ -42,18 +33,6 @@ whenever a consumer that needs it is enabled (`analytics.enabled` or `traffic_lo
 Traffic Logging is one such consumer: it reads whatever the collector captured and serializes it to
 stdout.
 
-```
-client → Envoy  (captures headers/body via a system policy; streams the access log entry)
-                                        │
-                                        ▼
-                              policy-engine: builds the event
-                                        │
-                    ┌───────────────────┴───────────────────┐
-                    ▼                                       ▼
-        Moesif publisher (if analytics.enabled)   Traffic Logging (if traffic_logging.enabled)
-          sends events to Moesif                    writes one JSON line per request to stdout
-```
-
 Because emission happens on Envoy's access-log path, it fires for every request Envoy terminates —
 including requests denied by an auth policy before they reach any downstream logic.
 
@@ -61,8 +40,7 @@ including requests denied by an auth policy before they reach any downstream log
 
 At minimum, enable `[traffic_logging]` and turn on whichever `[collector]` capture flags you want
 reflected in the log line. Each `traffic_logging.*_headers` / `*_body` toggle only **selects among**
-what `[collector]` already captured — enabling it while the matching `[collector]` flag is off is a
-no-op.
+what `[collector]` already captured — enabling it while the matching `[collector]` flag is off has no effect.
 
 ```toml
 [collector]
@@ -154,9 +132,6 @@ exclude_fields = ["requestBody", "responseBody", "requestHeaders.authorization"]
   names); every other path segment matches case-sensitively.
 * A path can reach into a nested object produced by a `properties` expression that resolves to a map,
   for example `properties.claims.internal_debug`.
-* `exclude_fields` only **trims** what `request_headers`/`request_body`/`response_headers`/
-  `response_body` already include — it is not a standalone switch. Setting `exclude_fields` alone,
-  with every flow toggle left at its default `false`, still logs no headers or bodies at all.
 
 ## Ignoring paths
 
