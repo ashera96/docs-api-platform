@@ -59,7 +59,7 @@ cd wso2apip-ai-gateway-1.2.0-alpha/
 docker compose -p ai-gateway up -d
 
 # Verify gateway controller admin endpoint is running
-curl http://localhost:9094/health
+curl http://localhost:9094/api/admin/v1/health
 ```
 
 ## Deploy an MCP proxy configuration
