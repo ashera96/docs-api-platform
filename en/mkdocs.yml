@@ -341,7 +341,8 @@ nav:
         - Setup:
           - Storage & Backends: api-gateway/next/setup/storage-and-backends.md
           - Artifact Templating: api-gateway/next/setup/artifact-templating.md
-          - Upstream Timeouts: api-gateway/next/setup/upstream-timeouts.md
+        - Resiliency:
+          - Timeouts: api-gateway/next/resiliency/timeouts.md
         - Quick Start Guide: api-gateway/next/quick-start-guide.md
         - Policies:
           - Overview: api-gateway/next/policies/overview.md
@@ -571,6 +572,8 @@ nav:
             - Overview: ai-gateway/next/deployment-modes/kubernetes/overview.md
             - Standalone Mode: ai-gateway/next/deployment-modes/kubernetes/kubernetes-standalone.md
             - Kubernetes Operator Mode: ai-gateway/next/deployment-modes/kubernetes/gateway-operator.md
+        - Resiliency:
+            - Timeouts: ai-gateway/next/resiliency/timeouts.md
         - Observability:
             - Logging: ai-gateway/next/observability/logging.md
             - Tracing: ai-gateway/next/observability/tracing.md
