@@ -27,14 +27,14 @@ The AI Workspace enables you to manage AI gateways and LLM providers. This guide
 Run this command in your terminal to download and unzip AI Workspace:
 
 ```bash
-curl -sLO https://github.com/wso2/api-platform/releases/download/ai-workspace/v1.0.0-alpha/wso2apip-ai-workspace-1.0.0-alpha.zip && \
-unzip wso2apip-ai-workspace-1.0.0-alpha.zip
+curl -sLO https://github.com/wso2/api-platform/releases/download/portals/ai-workspace/v1.0.0-alpha2/wso2apip-ai-workspace-1.0.0-alpha2.zip && \
+unzip wso2apip-ai-workspace-1.0.0-alpha2.zip
 ```
 
 ## Step 2: Run the Setup Script
 
 ```bash
-cd wso2apip-ai-workspace-1.0.0-alpha
+cd wso2apip-ai-workspace-1.0.0-alpha2
 ./scripts/setup.sh
 ```
 
