@@ -691,6 +691,7 @@ nav:
   - AI Workspace:
     - Overview: next/ai-workspace/overview.md
     - Getting Started: next/ai-workspace/getting-started.md
+    - Configuration: next/ai-workspace/configuration.md
     - AI Gateways:
         - Setting Up: next/ai-workspace/ai-gateways/setting-up.md
     - LLM Providers:

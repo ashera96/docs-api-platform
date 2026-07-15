@@ -117,27 +117,36 @@ Asgardeo uses `org_id` as the claim for the organization UUID, while the Platfor
 Update `config.toml`:
 
 ```toml
-domain                = "<your-domain>"
-auth_mode              = "oidc"
-oidc_authority         = "https://api.asgardeo.io/t/<your-tenant>/oauth2/token"
-oidc_client_id         = "<ai-workspace-client-id>"
-oidc_org_id_claim      = "org_id"
-oidc_org_name_claim    = "org_name"
-oidc_org_handle_claim  = "org_handle"
-platform_api_base_url  = "https://<platform-api-host>/api/v1"
-controlplane_host      = "<platform-api-host>"
-default_org_region     = "us"
+domain             = "<your-domain>"
+auth_mode          = "oidc"
+controlplane_host  = "<platform-api-host>"
+default_org_region = "us"
+
+[platform_api]
+url = "https://<platform-api-host>"
+
+[oidc]
+authority                = "https://api.asgardeo.io/t/<your-tenant>/oauth2/token"
+client_id                = "<ai-workspace-client-id>"
+client_secret            = '{{ env "APIP_AIW_OIDC_CLIENT_SECRET" }}'
+redirect_url             = "https://<your-domain>/api/auth/callback"
+post_logout_redirect_url = "https://<your-domain>/login"
+
+[oidc.claim_mappings]
+organization_claim_name = "org_id"
+org_name_claim_name     = "org_name"
+org_handle_claim_name   = "org_handle"
 ```
 
-The client secret and redirect URLs are BFF settings rather than `config.toml` keys, since the secret must never reach the browser. Set them as environment variables on the AI Workspace container instead:
+`redirect_url` must exactly match the authorized redirect URL you registered in step 2.
+
+Never write the client secret as a literal in `config.toml` — the `{{ env }}` placeholder above reads it from an environment variable instead, so it never has to be committed to source control:
 
 ```bash
-OIDC_CLIENT_SECRET=<ai-workspace-client-secret>
-OIDC_REDIRECT_URL=https://<your-domain>/api/auth/callback        # the BFF callback from step 2
-OIDC_POST_LOGOUT_REDIRECT_URL=https://<your-domain>/login
+export APIP_AIW_OIDC_CLIENT_SECRET=<ai-workspace-client-secret>
 ```
 
-`OIDC_REDIRECT_URL` must exactly match the authorized redirect URL you registered in step 2.
+In a production deployment, prefer supplying it from a mounted secret file instead of an environment variable. See [Configure AI Workspace](../configuration.md) for both options.
 
 Once configured, opening AI Workspace redirects you to the Asgardeo-hosted login page instead of the file-based login form:
 
@@ -150,9 +159,9 @@ The Asgardeo token carries these claims through to the Platform API:
 | Claim | Purpose | Configured as |
 |-------|---------|----------------|
 | `sub` | User identity | N/A |
-| `org_id` | Organization UUID | `organization_claim_name` in the Platform API, `oidc_org_id_claim` in AI Workspace |
-| `org_name` | Organization display name | `org_name_claim_name` in the Platform API, `oidc_org_name_claim` in AI Workspace |
-| `org_handle` | Organization slug | `org_handle_claim_name` in the Platform API, `oidc_org_handle_claim` in AI Workspace |
+| `org_id` | Organization UUID | `organization_claim_name` in both `[oidc.claim_mappings]` (AI Workspace) and `[auth.idp.claim_mappings]` (Platform API) |
+| `org_name` | Organization display name | `org_name_claim_name` in both |
+| `org_handle` | Organization slug | `org_handle_claim_name` in both |
 | `scope` | Space-separated `ap:*` scopes | Validated by the Platform API |
 
-Keep these claim names consistent across three places: the Asgardeo token mapper output, the `oidc_org_*_claim` settings in `config.toml`, and the `*_claim_name` settings in the Platform API's `[auth.idp.claim_mappings]`.
+Keep these claim names consistent across three places: the Asgardeo token mapper output, `[oidc.claim_mappings]` in AI Workspace's `config.toml`, and `[auth.idp.claim_mappings]` in the Platform API's `config-platform-api.toml`.
