@@ -731,6 +731,7 @@ nav:
         - Overview: next/ai-workspace/authentication/overview.md
         - Set up Asgardeo: next/ai-workspace/authentication/asgardeo-setup.md
     - Configure Inbound Auth: next/ai-workspace/configure-inbound-auth.md
+    - Secrets Management: next/ai-workspace/secrets-management.md
     - Invoke via SDKs: next/ai-workspace/using-sdks.md
     - Policies:
         - Overview: next/ai-workspace/policies/overview.md
