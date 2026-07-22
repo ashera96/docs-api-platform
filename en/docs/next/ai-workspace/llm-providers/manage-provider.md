@@ -8,7 +8,7 @@ tags:
   - ai-workspace
   - llm-providers
 author: WSO2 API Platform Documentation Team
-last_updated: 2026-06-22
+last_updated: 2026-07-21
 content_type: "how-to"
 ---
 
@@ -166,11 +166,16 @@ The Rate Limiting tab provides two independent sections: **Backend** and **Per C
 
 Both sections support two configuration modes:
 
-- **Provider-wide** — A single limit applied across all API endpoints.
-- **Per Resource** — Individual limits per API endpoint (e.g., chat completions vs. embeddings).
+- **Provider-wide** — A single limit applied across all API endpoints. The limit maintains **one shared counter**: traffic on any endpoint draws down the same allowance, so exhausting the limit via one endpoint rejects requests on all endpoints.
+- **Per Resource** — Individual limits per API endpoint (e.g., chat completions vs. embeddings). Each endpoint maintains its **own independent counter**.
+
+![Rate Limiting tab showing Provider-wide and Per Resource configuration modes in the Backend section](../../../assets/img/ai-gateway/standalone-ai-workspace/llm-provider/rate-limiting-tab.png)
 
 !!! note
     Provider-wide and Per Resource modes are mutually exclusive per section. Clear existing limits before switching modes.
+
+!!! info "Provider-wide limits are a hard ceiling"
+    A provider-wide limit is evaluated before any per-resource policy and counts **every request attempt** — including requests that a stricter per-resource policy later rejects. When the shared allowance is exhausted, requests to every endpoint receive HTTP `429`. See [Policy Scope: Global vs. Per Resource](../policies/overview.md#policy-scope-global-vs-per-resource) for details.
 
 ### Limit Criteria
 
@@ -224,7 +229,7 @@ The tab displays all guardrails currently attached to the provider:
 
 ### Add a Guardrail
 
-Guardrails can be added globally (applying to all endpoints) or per resource (applying to a specific endpoint).
+Guardrails can be added globally (applying to all endpoints) or per resource (applying to a specific endpoint). A global guardrail runs on every request regardless of the endpoint called; a resource-level guardrail runs only on the endpoint it is attached to. When both are configured, global guardrails are evaluated first, followed by resource-level guardrails. See [Policy Scope: Global vs. Per Resource](../policies/overview.md#policy-scope-global-vs-per-resource).
 
 **To add a global guardrail:**
 

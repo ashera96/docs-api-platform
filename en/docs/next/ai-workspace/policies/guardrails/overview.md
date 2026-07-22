@@ -8,7 +8,7 @@ tags:
   - ai-workspace
   - guardrails
 author: WSO2 API Platform Documentation Team
-last_updated: 2026-06-22
+last_updated: 2026-07-21
 content_type: "overview"
 ---
 
@@ -47,7 +47,7 @@ Guardrails can be configured on both LLM Providers and App LLM Proxies:
 | **App LLM Proxy (Global)** | All endpoints of the proxy | Proxy-wide rules for a specific Gen AI application or agent |
 | **App LLM Proxy (Per Resource)** | A specific endpoint within the proxy | Endpoint-specific rules scoped to a single specialized proxy |
 
-When guardrails are configured at multiple levels, all of them are evaluated. Provider-level guardrails run first, followed by proxy-level guardrails.
+When guardrails are configured at multiple levels, all of them are evaluated. Provider-level guardrails run first, followed by proxy-level guardrails. Within a provider or proxy, global guardrails run before per-resource guardrails. See [Policy Scope: Global vs. Per Resource](../overview.md#policy-scope-global-vs-per-resource) for how the two scopes differ.
 
 ### How to Add a Guardrail
 

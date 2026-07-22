@@ -8,7 +8,7 @@ tags:
   - ai-workspace
   - policies
 author: WSO2 API Platform Documentation Team
-last_updated: 2026-06-22
+last_updated: 2026-07-21
 content_type: "overview"
 ---
 
@@ -58,6 +58,23 @@ Policies are configured through the management tabs of your LLM Providers and Ap
 - **App LLM Proxy** — Guardrails configured on a proxy can be applied globally (all endpoints) or per resource (specific endpoints) to specialize the behavior for a specific Gen AI application or agent.
 
 When both provider-level and proxy-level policies are active, they are both enforced. Provider-level policies act as a baseline, and proxy-level policies add additional protection.
+
+## Policy Scope: Global vs. Per Resource
+
+Within an LLM Provider or App LLM Proxy, each policy is attached at one of two scopes:
+
+| Scope | Applies To | Counter behavior |
+|-------|-----------|-------------------------------|
+| **Global** | Every endpoint of the provider or proxy | One shared counter across all endpoints |
+| **Per Resource** | A specific endpoint (path and method) | An independent counter per endpoint |
+
+The difference is the *scope of the counter* for rate limits and the *breadth of application* for guardrails:
+
+- A **global** rate limit maintains one shared bucket for the entire provider or proxy. Traffic on any endpoint draws down the same allowance — if a provider has a global limit of 100 requests/hour, then 60 requests to `/chat/completions` plus 40 to `/embeddings` exhausts it, and the next request to *either* endpoint is rejected.
+- A **per-resource** rate limit maintains an independent bucket per endpoint. A limit of 100 requests/hour attached to both `/chat/completions` and `/embeddings` allows 100 on each, counted separately.
+- A **global** guardrail runs on every endpoint, while a **per-resource** guardrail runs only on the endpoints it is attached to.
+
+For each request, global policies are evaluated first, followed by per-resource policies. Because a global rate limit is evaluated first, it counts **every request attempt** — including requests that a tighter per-resource limit later rejects. A global limit is therefore a hard ceiling on total traffic through the provider or proxy.
 
 ## Policy Hub
 
